@@ -10,7 +10,8 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({origin: "*", // allow all for now
+    methods: ["GET", "POST"],}));
 app.use(express.json());
 
 // Test route
