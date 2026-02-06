@@ -35,7 +35,8 @@ export default function InternshipForm() {
     e.preventDefault();
 
     try {
-      await axios.post("https://emberquest-backend.onrender.com/api/submit",formData);
+      await axios.post("http://localhost:3000/submit", formData);
+
 
       alert("Form Submitted Successfully ✅");
 
