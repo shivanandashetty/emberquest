@@ -1,10 +1,11 @@
-import express from "express";
 import pool from "../config/db.js";
 import { appendToSheet } from "../config/google.js";
 
-const router = express.Router();
+export default async function handler(req, res) {
 
-router.post("/submit", async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
 
   const {
     full_name,
@@ -19,12 +20,10 @@ router.post("/submit", async (req, res) => {
 
   try {
 
-    // ✅ Save to Neon DB
     await pool.query(
       `INSERT INTO forms
       (full_name, college, city, phone, email, semester, domain, mode)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-
       [
         full_name,
         college,
@@ -37,9 +36,6 @@ router.post("/submit", async (req, res) => {
       ]
     );
 
-    console.log("Saved to DB ✅");
-
-    // ✅ Save to Google Sheet
     await appendToSheet([
       full_name,
       college,
@@ -52,22 +48,16 @@ router.post("/submit", async (req, res) => {
       new Date().toLocaleString("en-IN")
     ]);
 
-    console.log("Saved to Sheet ✅");
-
-    res.json({
+    res.status(200).json({
       success: true,
-      message: "Form Submitted Successfully ✅"
+      message: "Form Submitted Successfully"
     });
 
   } catch (err) {
-
-    console.error("ERROR ❌", err);
 
     res.status(500).json({
       success: false,
       error: err.message
     });
   }
-});
-
-export default router;
+}
