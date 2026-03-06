@@ -2,7 +2,8 @@ import { google } from "googleapis";
 import path from "path";
 
 // Path to service account file
-const KEY_FILE = path.join(process.cwd(), "service-account.json");
+//const KEY_FILE = path.join(process.cwd(), "service-account.json");
+const KEY_FILE = path.join(process.cwd(), "backend/service-account.json");
 
 // Auth
 const auth = new google.auth.GoogleAuth({
