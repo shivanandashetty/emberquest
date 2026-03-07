@@ -1,8 +1,9 @@
-import pool from "../config/db.js";
-import { appendToSheet } from "../config/google.js";
+import pool from "../backend/config/db.js";
+import { appendToSheet } from "../backend/config/google.js";
 
 export default async function handler(req, res) {
 
+  // Allow only POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -20,6 +21,7 @@ export default async function handler(req, res) {
 
   try {
 
+    // Save data to Neon PostgreSQL
     await pool.query(
       `INSERT INTO forms
       (full_name, college, city, phone, email, semester, domain, mode)
@@ -36,6 +38,7 @@ export default async function handler(req, res) {
       ]
     );
 
+    // Save data to Google Sheet
     await appendToSheet([
       full_name,
       college,
@@ -48,14 +51,16 @@ export default async function handler(req, res) {
       new Date().toLocaleString("en-IN")
     ]);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Form Submitted Successfully"
     });
 
   } catch (err) {
 
-    res.status(500).json({
+    console.error("ERROR:", err);
+
+    return res.status(500).json({
       success: false,
       error: err.message
     });
