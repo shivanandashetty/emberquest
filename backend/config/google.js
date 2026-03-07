@@ -36,5 +36,4 @@ export async function appendToSheet(data) {
     throw err;
 
   }
-
 }
