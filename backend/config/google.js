@@ -32,7 +32,7 @@ export async function appendToSheet(data) {
 
   } catch (err) {
 
-    console.error("Google Sheet Error ❌", err.message);
+    console.error("Google Sheet Error ❌", err);
     throw err;
 
   }
