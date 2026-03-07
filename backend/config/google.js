@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 
+// Read service account JSON from Vercel environment variable
 const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
 const auth = new google.auth.GoogleAuth({
@@ -28,11 +29,11 @@ export async function appendToSheet(data) {
       },
     });
 
-    console.log("Google Sheet Updated ✅");
+    console.log("Sheet updated");
 
   } catch (err) {
 
-    console.error("Google Sheet Error ❌", err);
+    console.error("Google Sheet Error:", err);
     throw err;
 
   }
