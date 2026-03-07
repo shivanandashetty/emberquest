@@ -11,8 +11,8 @@ import {
 import axios from "axios";
 import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 
-
 export default function InternshipForm() {
+
   const [formData, setFormData] = useState({
     full_name: "",
     college: "",
@@ -35,24 +35,33 @@ export default function InternshipForm() {
     e.preventDefault();
 
     try {
-     // await axios.post("https://emberquest.onrender.com/submit", formData);
-        //await axios.post("http://localhost:3000/submit", formData);
-      await axios.post("/api/submit", formData);
 
-      alert("Form Submitted Successfully ✅");
-
-      setFormData({
-        full_name: "",
-        college: "",
-        city: "",
-        phone: "",
-        email: "",
-        semester: "",
-        domain: "",
-        mode: "",
+      const response = await axios.post("/api/submit", formData, {
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
+
+      if (response.data.success) {
+
+        alert("Form Submitted Successfully ✅");
+
+        setFormData({
+          full_name: "",
+          college: "",
+          city: "",
+          phone: "",
+          email: "",
+          semester: "",
+          domain: "",
+          mode: "",
+        });
+      }
+
     } catch (err) {
-      console.error(err);
+
+      console.error("Submit Error:", err.response?.data || err.message);
+
       alert("Error submitting form ❌");
     }
   };
@@ -75,12 +84,10 @@ export default function InternshipForm() {
           width: "100%",
           maxWidth: 900,
           borderRadius: 4,
-          //bgcolor: "#1b2a36",
-          primary: "#1b2a36",
-          color: "white",
           overflow: "hidden",
         }}
       >
+
         {/* Header */}
         <Box
           sx={{
@@ -90,7 +97,7 @@ export default function InternshipForm() {
           }}
         >
           <Typography variant="h4" fontWeight="bold" color="orange">
-            Internship Enquiry 
+            Internship Enquiry
           </Typography>
 
           <Typography variant="body1" color="gray">
@@ -100,6 +107,7 @@ export default function InternshipForm() {
 
         {/* Form */}
         <Box sx={{ p: 4 }}>
+
           <Typography
             variant="h6"
             mb={3}
@@ -112,7 +120,6 @@ export default function InternshipForm() {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
 
-              {/* Name */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -126,7 +133,6 @@ export default function InternshipForm() {
                 />
               </Grid>
 
-              {/* College */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -140,7 +146,6 @@ export default function InternshipForm() {
                 />
               </Grid>
 
-              {/* City */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -154,7 +159,6 @@ export default function InternshipForm() {
                 />
               </Grid>
 
-              {/* Phone */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -168,7 +172,6 @@ export default function InternshipForm() {
                 />
               </Grid>
 
-              {/* Email */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -183,7 +186,6 @@ export default function InternshipForm() {
                 />
               </Grid>
 
-              {/* Semester */}
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
@@ -271,66 +273,60 @@ export default function InternshipForm() {
             bgcolor: "#16202b",
           }}
         >
-          <Box
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    gap: 4,
-    mt: 1,
-  }}
->
-  {/* WhatsApp */}
-  <Box
-    component="a"
-    href="https://wa.me/919731755053" // Change number
-    target="_blank"
-    rel="noopener noreferrer"
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      gap: 1,
-      color: "#25D366",
-      fontWeight: "bold",
-      textDecoration: "none",
-      fontSize: "16px",
-      "&:hover": {
-        color: "#1ebe5d",
-        transform: "scale(1.1)",
-      },
-    }}
-  >
-    <FaWhatsapp size={22} />
-    WhatsApp
-  </Box>
 
-  {/* Instagram */}
-  <Box
-    component="a"
-    href="https://www.instagram.com/https://www.instagram.com/emberquest1?igsh=MTEyajYyb2hpc3Azaw==" // Change ID
-    target="_blank"
-    rel="noopener noreferrer"
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      gap: 1,
-      color: "#E1306C",
-      fontWeight: "bold",
-      textDecoration: "none",
-      fontSize: "16px",
-      "&:hover": {
-        color: "#C13584",
-        transform: "scale(1.1)",
-      },
-    }}
-  >
-    <FaInstagram size={22} />
-    Instagram
-  </Box>
-</Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 4,
+              mt: 1,
+            }}
+          >
+
+            <Box
+              component="a"
+              href="https://wa.me/919731755053"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                color: "#25D366",
+                fontWeight: "bold",
+                textDecoration: "none",
+                fontSize: "16px",
+              }}
+            >
+              <FaWhatsapp size={22} />
+              WhatsApp
+            </Box>
+
+            <Box
+              component="a"
+              href="https://www.instagram.com/emberquest1"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                color: "#E1306C",
+                fontWeight: "bold",
+                textDecoration: "none",
+                fontSize: "16px",
+              }}
+            >
+              <FaInstagram size={22} />
+              Instagram
+            </Box>
+
+          </Box>
 
           <Typography variant="caption" color="gray">
             © 2026 EmberQuest
           </Typography>
+
         </Box>
 
       </Paper>
@@ -338,7 +334,6 @@ export default function InternshipForm() {
   );
 }
 
-/* Input Dark Style */
 const inputStyle = {
   bgcolor: "#1b2a36",
   borderRadius: 1,
