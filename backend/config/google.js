@@ -1,26 +1,19 @@
 import { google } from "googleapis";
-import fs from "fs";
-import path from "path";
 
-// Absolute path to service account
-const KEY_FILE = path.resolve("backend/service-account.json");
+const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
-// Load service account credentials
 const auth = new google.auth.GoogleAuth({
-  keyFile: KEY_FILE,
+  credentials,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-// Create Sheets API client
 const sheets = google.sheets({
   version: "v4",
   auth,
 });
 
-// Get Sheet ID from environment variable
 const SHEET_ID = process.env.SHEET_ID;
 
-// Function to append data to sheet
 export async function appendToSheet(data) {
 
   try {
@@ -43,4 +36,5 @@ export async function appendToSheet(data) {
     throw err;
 
   }
+
 }
