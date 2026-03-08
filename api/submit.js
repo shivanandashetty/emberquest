@@ -1,5 +1,7 @@
-import pool from "../backend/config/db.js";
-import { appendToSheet } from "../backend/config/google.js";
+//import pool from "../backend/config/db.js";
+//import { appendToSheet } from "../backend/config/google.js";
+import pool from "./db.js";
+import { appendToSheet } from "./google.js";
 
 export default async function handler(req, res) {
 
