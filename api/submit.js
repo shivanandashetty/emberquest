@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     } = req.body;
 
     await pool.query(
-      `INSERT INTO forms
+      `INSERT INTO forms 
       (full_name, college, city, phone, email, semester, domain, mode)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
       [
@@ -53,14 +53,15 @@ export default async function handler(req, res) {
       message: "Form Submitted Successfully"
     });
 
-  } catch (err) {
+  } catch (error) {
 
-    console.error(err);
+    console.error("ERROR:", error);
 
     return res.status(500).json({
       success: false,
-      error: err.message
+      error: error.message
     });
 
   }
+
 }
