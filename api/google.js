@@ -3,10 +3,7 @@ import { google } from "googleapis";
 const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
 const auth = new google.auth.GoogleAuth({
-  credentials: {
-    client_email: serviceAccount.client_email,
-    private_key: serviceAccount.private_key.replace(/\\n/g, "\n"),
-  },
+  credentials: serviceAccount,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
@@ -18,14 +15,25 @@ const sheets = google.sheets({
 const SHEET_ID = process.env.SHEET_ID;
 
 export async function appendToSheet(data) {
+  try {
 
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID,
-    range: "Sheet1!A:I",
-    valueInputOption: "USER_ENTERED",
-    requestBody: {
-      values: [data],
-    },
-  });
+    if (!SHEET_ID) {
+      throw new Error("Sheet ID missing");
+    }
 
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SHEET_ID,
+      range: "Sheet1!A:I",
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [data],
+      },
+    });
+
+    console.log("Sheet Updated");
+
+  } catch (error) {
+    console.error("Sheets error:", error);
+    throw error;
+  }
 }
