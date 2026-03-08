@@ -7,19 +7,20 @@ const auth = new google.auth.GoogleAuth({
 
 const sheets = google.sheets({
   version: "v4",
-  auth,
+  auth
 });
 
 const SHEET_ID = process.env.SHEET_ID;
 
 export async function appendToSheet(data) {
+
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID,
     range: "Sheet1!A:I",
     valueInputOption: "USER_ENTERED",
-    insertDataOption: "INSERT_ROWS",
     requestBody: {
       values: [data],
     },
   });
+
 }

@@ -20,13 +20,24 @@ export default async function handler(req, res) {
       mode
     } = req.body;
 
+    // Insert into PostgreSQL
     await pool.query(
       `INSERT INTO forms
       (full_name, college, city, phone, email, semester, domain, mode)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-      [full_name, college, city, phone, email, semester, domain, mode]
+      [
+        full_name,
+        college,
+        city,
+        phone,
+        email,
+        semester,
+        domain,
+        mode
+      ]
     );
 
+    // Insert into Google Sheet
     await appendToSheet([
       full_name,
       college,
@@ -52,6 +63,5 @@ export default async function handler(req, res) {
       success: false,
       error: err.message
     });
-
   }
 }
