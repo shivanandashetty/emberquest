@@ -3,42 +3,30 @@ import { appendToSheet } from "../backend/config/google.js";
 
 export default async function handler(req, res) {
 
-  // Allow only POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const {
-    full_name,
-    college,
-    city,
-    phone,
-    email,
-    semester,
-    domain,
-    mode
-  } = req.body;
-
   try {
 
-    // Save data to Neon PostgreSQL
+    const {
+      full_name,
+      college,
+      city,
+      phone,
+      email,
+      semester,
+      domain,
+      mode
+    } = req.body;
+
     await pool.query(
       `INSERT INTO forms
       (full_name, college, city, phone, email, semester, domain, mode)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-      [
-        full_name,
-        college,
-        city,
-        phone,
-        email,
-        semester,
-        domain,
-        mode
-      ]
+      [full_name, college, city, phone, email, semester, domain, mode]
     );
 
-    // Save data to Google Sheet
     await appendToSheet([
       full_name,
       college,
@@ -58,11 +46,12 @@ export default async function handler(req, res) {
 
   } catch (err) {
 
-    console.error("ERROR:", err);
+    console.error(err);
 
     return res.status(500).json({
       success: false,
       error: err.message
     });
+
   }
 }
