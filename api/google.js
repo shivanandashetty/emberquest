@@ -2,7 +2,7 @@ import { google } from "googleapis";
 
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT),
-  scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  scopes: ["https://www.googleapis.com/auth/spreadsheets"]
 });
 
 const sheets = google.sheets({
@@ -19,8 +19,8 @@ export async function appendToSheet(data) {
     range: "Sheet1!A:I",
     valueInputOption: "USER_ENTERED",
     requestBody: {
-      values: [data],
-    },
+      values: [data]
+    }
   });
 
 }

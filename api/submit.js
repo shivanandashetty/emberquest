@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       mode
     } = req.body;
 
-    // Insert into PostgreSQL
     await pool.query(
       `INSERT INTO forms
       (full_name, college, city, phone, email, semester, domain, mode)
@@ -37,7 +36,6 @@ export default async function handler(req, res) {
       ]
     );
 
-    // Insert into Google Sheet
     await appendToSheet([
       full_name,
       college,
@@ -63,5 +61,6 @@ export default async function handler(req, res) {
       success: false,
       error: err.message
     });
+
   }
 }
